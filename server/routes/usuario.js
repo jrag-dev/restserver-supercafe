@@ -4,12 +4,14 @@ const _ = require('underscore');
 const Usuario = require('../models/usuario');
 const { encriptarPassword } = require('../helpers');
 
-const router = express.Router();
+const { verificarToken, verificarRole } = require('../middlewares/autenticacion');
+
+const routerUsuario = express.Router();
 
 
 
 
-router.get('/', (req, res) => {
+routerUsuario.get('/', verificarToken, (req, res) => {
 
   let desde = req.query.desde || 0;
   desde = Number(desde);
@@ -44,7 +46,7 @@ router.get('/', (req, res) => {
 })
 
 
-router.post('/', async (req, res) => {
+routerUsuario.post('/', [ verificarToken, verificarRole ] , async (req, res) => {
 
   const body = req.body;
 
@@ -74,7 +76,7 @@ router.post('/', async (req, res) => {
 })
 
 
-router.put('/:id', (req, res) => {
+routerUsuario.put('/:id',  [ verificarToken, verificarRole ], (req, res) => {
   const { id } = req.params;
   const body = _.pick(req.body, ['nombre', 'email', 'img', 'role', 'estado']);
 
@@ -95,7 +97,7 @@ router.put('/:id', (req, res) => {
 })
 
 
-router.delete('/:id', (req, res) => {
+routerUsuario.delete('/:id', [ verificarToken, verificarRole ], (req, res) => {
 
   const { id } = req.params;
 
@@ -126,7 +128,7 @@ router.delete('/:id', (req, res) => {
 })
 
 
-router.delete('/soft/:id', (req, res) => {
+routerUsuario.delete('/soft/:id', [ verificarToken, verificarRole ], (req, res) => {
 
   const { id } = req.params;
 
@@ -165,4 +167,4 @@ router.delete('/soft/:id', (req, res) => {
 })
 
 
-module.exports = router;
+module.exports = routerUsuario;
