@@ -1,5 +1,6 @@
 const express = require('express');
-const { dbConnect } = require('./db/mongodb');
+const { dbConnect } = require('./db/mongodb')
+const path = require('path')
 
 
 
@@ -8,6 +9,9 @@ const app = express();
 
 // Habilitar body Parser
 app.use(express.json({extended: true }))
+
+// Habilitar la carpeta publica
+app.use(express.static(path.join(__dirname, '../public')))
 
 // Conección a la base de datos
 dbConnect()
