@@ -8,7 +8,7 @@ const routerCategoria = express.Router();
 
 
 routerCategoria.get('/', verificarToken, (req, res) => {
-  
+
   Categoria.find({})
     .populate('usuario')
     .exec( (err, categorias) => {

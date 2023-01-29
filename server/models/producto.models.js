@@ -15,6 +15,10 @@ const productoSchema = new Schema({
     type: String,
     required: true
   },
+  img: {
+    type: String,
+    required: false
+  },
   disponible: {
     type: Boolean,
     required: true,
