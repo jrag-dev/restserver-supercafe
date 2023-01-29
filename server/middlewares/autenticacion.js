@@ -46,7 +46,32 @@ let verificarRole = (req, res, next) => {
   return next()
 }
 
+// TODO: verificar token para las imagenes
+
+const verificarTokenImg = (req, res, next) => {
+
+  let token = req.query.token;
+  jsonwebtoken.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+
+    if (err) {
+      return res.status(401).json({
+        ok: false,
+        err: {
+          message: "Token inválido!!"
+        }
+      })
+    }
+
+    req.usuario = decoded.usuario
+
+    return next()
+
+  })
+}
+
+
 module.exports = {
   verificarToken,
-  verificarRole
+  verificarRole,
+  verificarTokenImg
 };
